@@ -8,7 +8,7 @@ from collections import deque
 # Set page to wide mode for more space
 st.set_page_config(layout="wide", page_title="CSS Finder")
 
-st.title("SMA CSS Finder")
+st.title("CSS Finder")
 
 # Initialize session state for caching
 if 'crawled_pages' not in st.session_state:
@@ -93,12 +93,12 @@ if st.button("Find Instances"):
                         # Parse HTML
                         soup = BeautifulSoup(response.content, 'html.parser')
                         
-                        # Store all elements with classes for this page
-                        all_elements_with_classes = soup.find_all(class_=True)
+                        # Store all elements with classes or IDs for this page
+                        all_elements = soup.find_all(lambda tag: tag.get('class') or tag.get('id'))
                         
                         crawled_data[current_url] = {
                             'soup': soup,
-                            'elements': all_elements_with_classes
+                            'elements': all_elements
                         }
                         
                         # Find more links to crawl
